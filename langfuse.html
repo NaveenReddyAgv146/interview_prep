@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LangFuse Interview Prep</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #151820;
+    --surface2: #1c2030;
+    --border: #252a3a;
+    --accent: #f97316;
+    --accent2: #3b82f6;
+    --accent3: #10b981;
+    --warn: #f59e0b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0a0c10;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0d0f14 0%, #1a1f35 50%, #0d0f14 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    background: rgba(249,115,22,0.1);
+    border: 1px solid rgba(249,115,22,0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    color: var(--muted);
+    font-size: 14px;
+    max-width: 520px;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav a {
+    display: block;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  nav a:hover { color: var(--text); }
+  nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* LAYOUT */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 56px;
+    scroll-margin-top: 80px;
+  }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .section h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+  .card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h3 .icon { font-size: 16px; }
+  .card p { color: #94a3b8; font-size: 14px; line-height: 1.6; }
+
+  /* FEATURE GRID */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .feature-card .feat-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px;
+    margin-bottom: 12px;
+  }
+  .feat-orange { background: rgba(249,115,22,0.12); }
+  .feat-blue { background: rgba(59,130,246,0.12); }
+  .feat-green { background: rgba(16,185,129,0.12); }
+  .feat-purple { background: rgba(168,85,247,0.12); }
+  .feat-yellow { background: rgba(245,158,11,0.12); }
+  .feat-pink { background: rgba(236,72,153,0.12); }
+
+  .feature-card h4 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .feature-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* CODE BLOCKS */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    overflow-x: auto;
+    margin: 16px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f1117;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+    padding: 8px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .code-header + pre {
+    border-radius: 0 0 10px 10px;
+    margin-top: 0;
+  }
+  .code-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #28c840; }
+
+  /* Syntax colors */
+  .kw { color: #c792ea; } /* keyword */
+  .fn { color: #82aaff; } /* function */
+  .st { color: #c3e88d; } /* string */
+  .cm { color: #546e7a; font-style: italic; } /* comment */
+  .nm { color: #f78c6c; } /* number/const */
+  .tp { color: #ffcb6b; } /* type */
+  .op { color: #89ddff; } /* operator/symbol */
+  .va { color: #eeffff; } /* variable */
+
+  /* Q&A */
+  .qa-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .qa-q {
+    background: var(--surface);
+    padding: 16px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    user-select: none;
+  }
+  .qa-q:hover { background: var(--surface2); }
+  .qa-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(249,115,22,0.1);
+    border: 1px solid rgba(249,115,22,0.2);
+    padding: 2px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .qa-a {
+    background: var(--surface2);
+    padding: 16px 20px 16px 52px;
+    font-size: 13.5px;
+    color: #94a3b8;
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+  }
+  .qa-a strong { color: var(--text); }
+  .qa-a .tip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--accent3);
+    background: rgba(16,185,129,0.08);
+    border: 1px solid rgba(16,185,129,0.2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    display: block;
+  }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .compare-table th {
+    padding: 12px 16px;
+    text-align: left;
+    background: var(--surface2);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table th:first-child { border-radius: 10px 0 0 0; }
+  .compare-table th:last-child { border-radius: 0 10px 0 0; }
+  .compare-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+  .compare-table .row-label { color: #94a3b8; font-weight: 500; }
+  .tag-win { color: var(--accent3); font-weight: 600; font-size: 11px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); padding: 2px 7px; border-radius: 4px; }
+  .tag-tie { color: var(--warn); font-weight: 600; font-size: 11px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); padding: 2px 7px; border-radius: 4px; }
+  .tag-loss { color: #ef4444; font-weight: 600; font-size: 11px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); padding: 2px 7px; border-radius: 4px; }
+
+  /* RAG pipeline diagram */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+  .pipe-step {
+    flex-shrink: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    min-width: 90px;
+  }
+  .pipe-step .step-label { color: var(--muted); font-size: 10px; margin-bottom: 2px; font-family: 'IBM Plex Mono', monospace; }
+  .pipe-step .step-name { color: var(--text); font-size: 12px; }
+  .pipe-arrow {
+    color: var(--accent);
+    font-size: 18px;
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: rgba(249,115,22,0.06);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    font-size: 13.5px;
+    color: #94a3b8;
+  }
+  .callout strong { color: var(--text); }
+  .callout-blue {
+    border-left-color: var(--accent2);
+    background: rgba(59,130,246,0.06);
+  }
+  .callout-green {
+    border-left-color: var(--accent3);
+    background: rgba(16,185,129,0.06);
+  }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+  /* BADGE ROW */
+  .badge-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .badge-orange { background: rgba(249,115,22,0.1); color: var(--accent); border: 1px solid rgba(249,115,22,0.25); }
+  .badge-blue { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+  .badge-green { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+  .badge-purple { background: rgba(168,85,247,0.1); color: #c084fc; border: 1px solid rgba(168,85,247,0.25); }
+
+  /* ARCH DIAGRAM */
+  .arch {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #64748b;
+    line-height: 1.8;
+  }
+  .arch .hl { color: var(--accent); }
+  .arch .hl2 { color: #60a5fa; }
+  .arch .hl3 { color: #34d399; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Interview Prep Guide</div>
+  <h1>Master <span>LangFuse</span> for Your AI Developer Interview</h1>
+  <p>Complete coverage: tracing, evals, RAG, LangChain integration, interview Q&A, and LangSmith comparison — tailored for AI Dev + Eval + Graph Engineering roles.</p>
+  <div class="badge-row" style="margin-top:20px">
+    <span class="badge badge-orange">Observability</span>
+    <span class="badge badge-blue">LangChain / LangGraph</span>
+    <span class="badge badge-green">RAG Pipelines</span>
+    <span class="badge badge-purple">Evaluations</span>
+    <span class="badge badge-orange">Open Source · MIT</span>
+    <span class="badge badge-blue">Acquired by ClickHouse 2026</span>
+  </div>
+</header>
+
+<nav>
+  <a href="#what-is" class="active">What is LangFuse</a>
+  <a href="#features">Key Features</a>
+  <a href="#integration">Integration</a>
+  <a href="#rag">RAG Tracing</a>
+  <a href="#interview">Interview Q&A</a>
+  <a href="#comparison">vs LangSmith</a>
+</nav>
+
+<div class="container">
+
+  <!-- SECTION 1 -->
+  <div class="section" id="what-is">
+    <div class="section-label">Section 01</div>
+    <h2>What is LangFuse and How Does It Work?</h2>
+
+    <div class="callout">
+      <strong>One-liner for the interview:</strong> "LangFuse is an open-source AI engineering platform that provides the observability, prompt management, and evaluation layer for LLM applications — from a single chatbot to complex multi-agent pipelines."
+    </div>
+
+    <div class="card">
+      <h3><span class="icon">🔍</span> The Core Problem It Solves</h3>
+      <p>LLM applications are inherently non-deterministic. Traditional logging doesn't tell you <em>why</em> a response was bad — it doesn't capture which prompt was used, which documents were retrieved, how long the embedding step took, or what the model was actually sent. LangFuse captures all of this, giving you a structured, hierarchical view of every request through your system.</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="icon">🏗️</span> Architecture</h3>
+      <p>LangFuse is built on <strong>ClickHouse</strong> (acquired by ClickHouse Inc. in March 2026), a columnar OLAP database optimized for high-volume writes and fast analytical queries — exactly what production-scale LLM tracing requires. It exposes a REST API and typed SDKs (Python, JS/TS). Data flows via lightweight SDK calls that are <strong>asynchronous and non-blocking</strong> — tracing adds near-zero latency.</p>
+    </div>
+
+    <div class="arch">
+      <span class="hl">Your App</span> → SDK/Callback → <span class="hl2">LangFuse API</span> → <span class="hl3">ClickHouse Storage</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="hl2">LangFuse UI</span> (Traces · Evals · Dashboards · Prompts)
+    </div>
+
+    <div class="card">
+      <h3><span class="icon">📡</span> How Tracing Works — Core Concepts</h3>
+      <p>Every request creates a <strong>Trace</strong> — the top-level container. Inside it are <strong>Observations</strong>, which are one of three types:</p>
+      <br>
+      <p><strong>Span</strong> — a unit of work with a start and end time (e.g., "retrieval step", "re-ranking")</p>
+      <p><strong>Generation</strong> — a specialized span for an LLM call; captures prompt, completion, model, tokens, cost</p>
+      <p><strong>Event</strong> — a single point-in-time log (e.g., "cache hit")</p>
+      <br>
+      <p>Multiple traces can be grouped into a <strong>Session</strong> for multi-turn conversations. You can also attach <strong>user IDs</strong> to track per-user cost and quality.</p>
+    </div>
+
+    <div class="callout callout-blue">
+      <strong>Key interview point:</strong> LangFuse v3 (mid-2025) moved to a fully <strong>OpenTelemetry-native architecture</strong>. This means it can stitch together distributed traces across microservices and integrate with any OTel-compatible framework — a major architectural advantage over LangSmith.
+    </div>
+
+    <div class="callout callout-green">
+      <strong>Deployment options:</strong> LangFuse Cloud (managed, free tier: 50k observations/month), Self-hosted via Docker Compose or Kubernetes/Helm (full feature parity, free), or Air-gapped enterprise deployment. It is MIT-licensed open source.
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section" id="features">
+    <div class="section-label">Section 02</div>
+    <h2>Key Features You Must Know</h2>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feat-icon feat-orange">🔭</div>
+        <h4>Tracing & Observability</h4>
+        <p>Hierarchical, nested traces for every LLM call, retrieval step, tool execution, and agent action. Captures inputs, outputs, latency, tokens, and cost automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon feat-blue">⭐</div>
+        <h4>Scoring & Feedback</h4>
+        <p>Attach numeric or categorical scores to any trace or observation — via LLM-as-a-judge, user feedback (thumbs up/down), manual annotation queues, or custom code evaluators.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon feat-green">🗂️</div>
+        <h4>Datasets</h4>
+        <p>Build benchmark test sets from production traces or upload your own. Run your application against datasets for regression testing before deployments — perfect for CI/CD integration.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon feat-purple">🧪</div>
+        <h4>Evaluations (Evals)</h4>
+        <p>Both offline (on curated datasets) and online (live production traffic) evals. Supports LLM-as-judge, heuristic/code evaluators, Ragas integration for RAG-specific metrics (faithfulness, relevance, context recall).</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon feat-yellow">📝</div>
+        <h4>Prompt Management</h4>
+        <p>Version-controlled prompts stored centrally, decoupled from code. Strong client+server caching means you can iterate on prompts without redeployments and with no added latency.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon feat-pink">🎮</div>
+        <h4>LLM Playground</h4>
+        <p>Test and iterate on prompts across different models. When you see a bad trace, jump directly to the playground to reproduce and fix the issue — a tight debug loop.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:20px">
+      <strong>For AI Evaluation roles:</strong> Know that LangFuse supports <strong>online evaluation</strong> (attaching evaluators to live production traces) and <strong>offline evaluation</strong> (running a dataset through your agent and scoring each run). You can use Ragas metrics — faithfulness, answer relevancy, context precision — directly with LangFuse's dataset+experiment framework.
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section" id="integration">
+    <div class="section-label">Section 03</div>
+    <h2>LangFuse Integration in Python / LangChain</h2>
+
+    <p style="color:#94a3b8; margin-bottom:20px; font-size:14px;">There are two main integration patterns: the <strong>Callback Handler</strong> (automated, for LangChain) and the <strong>@observe decorator</strong> (manual, for any Python code).</p>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>setup.sh — Install</span>
+    </div>
+    <pre><span class="cm"># Install dependencies</span>
+pip install langfuse langchain langchain-openai langchain-community
+
+<span class="cm"># Set env vars (add to .env)</span>
+<span class="va">LANGFUSE_SECRET_KEY</span>=<span class="st">"sk-lf-..."</span>
+<span class="va">LANGFUSE_PUBLIC_KEY</span>=<span class="st">"pk-lf-..."</span>
+<span class="va">LANGFUSE_HOST</span>=<span class="st">"https://cloud.langfuse.com"</span>  <span class="cm"># or your self-hosted URL</span>
+<span class="va">OPENAI_API_KEY</span>=<span class="st">"sk-..."</span></pre>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>langchain_basic.py — LangChain + LangFuse (Callback Handler)</span>
+    </div>
+    <pre><span class="kw">from</span> <span class="tp">langfuse</span> <span class="kw">import</span> get_client
+<span class="kw">from</span> <span class="tp">langfuse.langchain</span> <span class="kw">import</span> CallbackHandler
+<span class="kw">from</span> <span class="tp">langchain_openai</span> <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> <span class="tp">langchain_core.prompts</span> <span class="kw">import</span> ChatPromptTemplate
+
+<span class="cm"># Initialize LangFuse and handler</span>
+<span class="va">langfuse</span> = <span class="fn">get_client</span>()
+<span class="va">langfuse_handler</span> = <span class="fn">CallbackHandler</span>(
+    user_id=<span class="st">"user-123"</span>,
+    session_id=<span class="st">"session-abc"</span>,
+    tags=[<span class="st">"production"</span>, <span class="st">"v2"</span>]
+)
+
+<span class="cm"># Build your chain normally</span>
+<span class="va">llm</span> = <span class="fn">ChatOpenAI</span>(model=<span class="st">"gpt-4o"</span>, temperature=<span class="nm">0.2</span>)
+<span class="va">prompt</span> = <span class="fn">ChatPromptTemplate</span>.from_template(<span class="st">"Answer concisely: {question}"</span>)
+<span class="va">chain</span> = <span class="va">prompt</span> | <span class="va">llm</span>
+
+<span class="cm"># Pass the handler as a callback — that's it!</span>
+<span class="va">response</span> = <span class="va">chain</span>.<span class="fn">invoke</span>(
+    {<span class="st">"question"</span>: <span class="st">"What is LangFuse?"</span>},
+    config={<span class="st">"callbacks"</span>: [<span class="va">langfuse_handler</span>]}
+)
+
+<span class="cm"># IMPORTANT: flush in short-lived scripts / serverless</span>
+<span class="va">langfuse</span>.<span class="fn">flush</span>()</pre>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>observe_decorator.py — @observe for any Python function</span>
+    </div>
+    <pre><span class="kw">from</span> <span class="tp">langfuse.decorators</span> <span class="kw">import</span> observe, langfuse_context
+
+<span class="cm"># @observe automatically creates a span for this function</span>
+<span class="op">@</span><span class="fn">observe</span>(name=<span class="st">"retrieve-documents"</span>)
+<span class="kw">def</span> <span class="fn">retrieve_docs</span>(query: <span class="tp">str</span>) -> <span class="tp">list</span>:
+    <span class="cm"># Add custom metadata to the current span</span>
+    <span class="fn">langfuse_context</span>.<span class="fn">update_current_observation</span>(
+        metadata={<span class="st">"retriever"</span>: <span class="st">"chroma"</span>, <span class="st">"top_k"</span>: <span class="nm">5</span>}
+    )
+    docs = vector_store.<span class="fn">similarity_search</span>(query, k=<span class="nm">5</span>)
+    <span class="kw">return</span> docs
+
+<span class="op">@</span><span class="fn">observe</span>(as_type=<span class="st">"generation"</span>)  <span class="cm"># marks as LLM generation</span>
+<span class="kw">def</span> <span class="fn">generate_answer</span>(query: <span class="tp">str</span>, context: <span class="tp">str</span>) -> <span class="tp">str</span>:
+    response = openai_client.chat.completions.<span class="fn">create</span>(
+        model=<span class="st">"gpt-4o"</span>,
+        messages=[
+            {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="va">f</span><span class="st">"Context: {context}\n\nQ: {query}"</span>}
+        ]
+    )
+    <span class="kw">return</span> response.choices[<span class="nm">0</span>].message.content
+
+<span class="op">@</span><span class="fn">observe</span>(name=<span class="st">"rag-pipeline"</span>)  <span class="cm"># parent trace</span>
+<span class="kw">def</span> <span class="fn">rag_pipeline</span>(query: <span class="tp">str</span>) -> <span class="tp">str</span>:
+    docs = <span class="fn">retrieve_docs</span>(query)          <span class="cm"># child span auto-created</span>
+    context = <span class="st">"\n"</span>.<span class="fn">join</span>([d.page_content <span class="kw">for</span> d <span class="kw">in</span> docs])
+    answer = <span class="fn">generate_answer</span>(query, context)  <span class="cm"># child generation auto-created</span>
+    <span class="kw">return</span> answer</pre>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>scoring.py — Adding Scores to Traces</span>
+    </div>
+    <pre><span class="kw">from</span> <span class="tp">langfuse</span> <span class="kw">import</span> get_client
+
+<span class="va">langfuse</span> = <span class="fn">get_client</span>()
+
+<span class="cm"># Score a trace by its trace_id (get from handler.get_trace_id())</span>
+<span class="va">langfuse</span>.<span class="fn">score</span>(
+    trace_id=<span class="st">"trace-abc-123"</span>,
+    name=<span class="st">"user-feedback"</span>,
+    value=<span class="nm">1</span>,           <span class="cm"># 1 = positive, 0 = negative</span>
+    comment=<span class="st">"User clicked thumbs up"</span>
+)
+
+<span class="cm"># Score from LLM-as-judge (numeric 0.0–1.0)</span>
+<span class="va">langfuse</span>.<span class="fn">score</span>(
+    trace_id=<span class="st">"trace-abc-123"</span>,
+    name=<span class="st">"faithfulness"</span>,
+    value=<span class="nm">0.87</span>,
+    comment=<span class="st">"Answer is grounded in retrieved context"</span>
+)
+
+<span class="cm"># Get trace id from active handler</span>
+<span class="va">trace_id</span> = <span class="va">langfuse_handler</span>.<span class="fn">get_trace_id</span>()  <span class="cm"># after .invoke()</span></pre>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>prompt_management.py — Fetching Managed Prompts</span>
+    </div>
+    <pre><span class="kw">from</span> <span class="tp">langfuse</span> <span class="kw">import</span> get_client
+
+<span class="va">langfuse</span> = <span class="fn">get_client</span>()
+
+<span class="cm"># Fetch latest production prompt (cached client-side)</span>
+<span class="va">prompt_obj</span> = <span class="va">langfuse</span>.<span class="fn">get_prompt</span>(<span class="st">"rag-system-prompt"</span>)
+
+<span class="cm"># Compile with variables</span>
+<span class="va">compiled_prompt</span> = <span class="va">prompt_obj</span>.<span class="fn">compile</span>(
+    company_name=<span class="st">"Acme Corp"</span>,
+    language=<span class="st">"English"</span>
+)
+
+<span class="cm"># Use with your LLM — version is auto-tracked in traces</span>
+<span class="va">response</span> = <span class="va">llm</span>.<span class="fn">invoke</span>(<span class="va">compiled_prompt</span>)</pre>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>langgraph_tracing.py — LangGraph Agent Tracing</span>
+    </div>
+    <pre><span class="kw">from</span> <span class="tp">langfuse.langchain</span> <span class="kw">import</span> CallbackHandler
+<span class="kw">from</span> <span class="tp">langgraph.graph</span> <span class="kw">import</span> StateGraph
+
+<span class="va">langfuse_handler</span> = <span class="fn">CallbackHandler</span>()
+
+<span class="cm"># Build your LangGraph StateGraph normally...</span>
+<span class="va">graph</span> = <span class="va">builder</span>.<span class="fn">compile</span>()
+
+<span class="cm"># Pass the same callback handler — all nodes/edges are traced!</span>
+<span class="va">result</span> = <span class="va">graph</span>.<span class="fn">invoke</span>(
+    {<span class="st">"messages"</span>: [<span class="fn">HumanMessage</span>(content=<span class="st">"Summarize this document"</span>)]},
+    config={<span class="st">"callbacks"</span>: [<span class="va">langfuse_handler</span>]}
+)
+<span class="cm"># LangFuse UI will show the agent as a nested graph visualization</span></pre>
+
+    <div class="callout callout-green" style="margin-top:8px">
+      <strong>For Graph Engineering roles:</strong> The exact same <code>CallbackHandler</code> pattern works for LangGraph. LangFuse renders the agent execution as an interactive graph in its UI — you can see which nodes fired, in what order, and what each node input/output was. Critical for debugging cycles and conditional edges.
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section" id="rag">
+    <div class="section-label">Section 04</div>
+    <h2>Tracing a RAG Pipeline with LangFuse</h2>
+
+    <p style="color:#94a3b8; margin-bottom:20px; font-size:14px;">A RAG pipeline has multiple distinct stages — each should be a named span so you can identify bottlenecks and quality issues at each step.</p>
+
+    <div class="pipeline">
+      <div class="pipe-step"><div class="step-label">SPAN</div><div class="step-name">🔍 Embed Query</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-label">SPAN</div><div class="step-name">📚 Retrieve Docs</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-label">SPAN</div><div class="step-name">🔁 Re-rank</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-label">GENERATION</div><div class="step-name">🤖 LLM Call</div></div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step"><div class="step-label">SCORE</div><div class="step-name">⭐ Eval Output</div></div>
+    </div>
+
+    <div class="code-header">
+      <span><span class="code-dot dot-red"></span><span class="code-dot dot-yellow"></span><span class="code-dot dot-green"></span></span>
+      <span>rag_traced.py — Full RAG Pipeline with Nested Spans + Eval</span>
+    </div>
+    <pre><span class="kw">from</span> <span class="tp">langfuse.decorators</span> <span class="kw">import</span> observe, langfuse_context
+<span class="kw">from</span> <span class="tp">langfuse</span> <span class="kw">import</span> get_client
+<span class="kw">from</span> <span class="tp">langchain_openai</span> <span class="kw">import</span> OpenAIEmbeddings, ChatOpenAI
+<span class="kw">from</span> <span class="tp">langchain_chroma</span> <span class="kw">import</span> Chroma
+
+<span class="va">langfuse</span> = <span class="fn">get_client</span>()
+<span class="va">embeddings</span> = <span class="fn">OpenAIEmbeddings</span>()
+<span class="va">vectorstore</span> = Chroma.<span class="fn">from_existing</span>(...)
+<span class="va">llm</span> = <span class="fn">ChatOpenAI</span>(model=<span class="st">"gpt-4o"</span>)
+
+<span class="op">@</span><span class="fn">observe</span>(name=<span class="st">"embed-query"</span>)
+<span class="kw">def</span> <span class="fn">embed_query</span>(query: <span class="tp">str</span>):
+    <span class="va">vector</span> = <span class="va">embeddings</span>.<span class="fn">embed_query</span>(query)
+    <span class="fn">langfuse_context</span>.<span class="fn">update_current_observation</span>(
+        metadata={<span class="st">"dimensions"</span>: <span class="fn">len</span>(vector)}
+    )
+    <span class="kw">return</span> <span class="va">vector</span>
+
+<span class="op">@</span><span class="fn">observe</span>(name=<span class="st">"retrieve-documents"</span>)
+<span class="kw">def</span> <span class="fn">retrieve</span>(query: <span class="tp">str</span>, top_k: <span class="tp">int</span> = <span class="nm">5</span>):
+    <span class="va">docs</span> = <span class="va">vectorstore</span>.<span class="fn">similarity_search</span>(query, k=top_k)
+    <span class="fn">langfuse_context</span>.<span class="fn">update_current_observation</span>(
+        metadata={
+            <span class="st">"top_k"</span>: top_k,
+            <span class="st">"docs_retrieved"</span>: <span class="fn">len</span>(docs),
+            <span class="st">"doc_sources"</span>: [d.metadata.get(<span class="st">"source"</span>) <span class="kw">for</span> d <span class="kw">in</span> docs]
+        }
+    )
+    <span class="kw">return</span> docs
+
+<span class="op">@</span><span class="fn">observe</span>(as_type=<span class="st">"generation"</span>, name=<span class="st">"answer-generation"</span>)
+<span class="kw">def</span> <span class="fn">generate</span>(query: <span class="tp">str</span>, context: <span class="tp">str</span>) -> <span class="tp">str</span>:
+    <span class="va">messages</span> = [
+        {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: <span class="st">"Answer using only the provided context."</span>},
+        {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: <span class="va">f</span><span class="st">"Context:\n{context}\n\nQuestion: {query}"</span>}
+    ]
+    <span class="fn">langfuse_context</span>.<span class="fn">update_current_observation</span>(input=<span class="va">messages</span>)
+    <span class="va">response</span> = <span class="va">llm</span>.<span class="fn">invoke</span>(<span class="va">messages</span>)
+    <span class="kw">return</span> response.content
+
+<span class="op">@</span><span class="fn">observe</span>(name=<span class="st">"rag-pipeline"</span>)  <span class="cm"># ROOT TRACE</span>
+<span class="kw">def</span> <span class="fn">rag_pipeline</span>(query: <span class="tp">str</span>, user_id: <span class="tp">str</span> = <span class="nm">None</span>) -> <span class="tp">str</span>:
+    <span class="cm"># Attach user ID to the trace for per-user analytics</span>
+    <span class="kw">if</span> user_id:
+        <span class="fn">langfuse_context</span>.<span class="fn">update_current_trace</span>(user_id=user_id)
+
+    <span class="fn">embed_query</span>(query)
+    <span class="va">docs</span> = <span class="fn">retrieve</span>(query, top_k=<span class="nm">5</span>)
+    <span class="va">context</span> = <span class="st">"\n\n"</span>.<span class="fn">join</span>([d.page_content <span class="kw">for</span> d <span class="kw">in</span> docs])
+    <span class="va">answer</span> = <span class="fn">generate</span>(query, context)
+    <span class="kw">return</span> answer
+
+<span class="cm"># Run and score</span>
+<span class="va">answer</span> = <span class="fn">rag_pipeline</span>(<span class="st">"What is our refund policy?"</span>, user_id=<span class="st">"user-42"</span>)
+<span class="va">trace_id</span> = <span class="fn">langfuse_context</span>.<span class="fn">get_current_trace_id</span>()
+
+<span class="cm"># Score with Ragas-style metric</span>
+<span class="va">langfuse</span>.<span class="fn">score</span>(trace_id=trace_id, name=<span class="st">"answer-relevance"</span>, value=<span class="nm">0.92</span>)</pre>
+
+    <div class="callout callout-blue" style="margin-top:8px">
+      <strong>What this gives you in the UI:</strong> A trace tree showing embed → retrieve → generate, with latency at each step, the exact documents retrieved (with sources), tokens used in generation, total cost, and a relevance score. When a user complains about a wrong answer, you click on their trace and immediately see which docs were retrieved and what prompt was sent.
+    </div>
+
+    <div class="card">
+      <h3><span class="icon">🔬</span> RAG Evals with Ragas Integration</h3>
+      <p>LangFuse integrates directly with <strong>Ragas</strong>, the gold-standard RAG evaluation library. You can evaluate: <strong>Faithfulness</strong> (is the answer grounded in the retrieved context?), <strong>Answer Relevancy</strong> (does the answer address the question?), <strong>Context Recall</strong> (was relevant info actually retrieved?), and <strong>Context Precision</strong> (are retrieved docs precise?). Run these on your LangFuse datasets as part of a CI/CD gate.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section" id="interview">
+    <div class="section-label">Section 05</div>
+    <h2>Common Interview Questions & Strong Answers</h2>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q1</span>
+        What is LangFuse and why would you use it over just adding print statements or logging?
+      </div>
+      <div class="qa-a">
+        <strong>Strong answer:</strong> LangFuse is an open-source AI engineering platform for observability, prompt management, and evaluation of LLM applications. Unlike print statements, it captures the <em>full execution context</em> — the exact prompt sent, model parameters, retrieved documents, token counts, costs, and nested call hierarchy — in a structured, queryable way. Print logs are ephemeral and unstructured; LangFuse gives you a persistent, hierarchical trace you can filter, diff, and score. For production LLM systems, you need to correlate quality degradations with specific prompt versions or retrieval changes — that's impossible with raw logs but trivial with LangFuse.
+        <div class="tip">💡 Tip: Mention the non-blocking async SDK — tracing adds near-zero latency overhead.</div>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q2</span>
+        How do you trace a multi-step agent with LangFuse? Walk me through the concepts.
+      </div>
+      <div class="qa-a">
+        <strong>Strong answer:</strong> Every agent run creates a single root <strong>Trace</strong>. Within it, each step — a tool call, a retrieval, an LLM generation — becomes an <strong>Observation</strong>. Observations can be Spans (timed work), Generations (LLM calls with rich metadata), or Events (point-in-time logs). For LangChain/LangGraph agents, you just pass a <code>CallbackHandler</code> to <code>.invoke()</code> — LangFuse automatically builds the nested tree. For custom agents, you use the <code>@observe</code> decorator on each function, and LangFuse infers the parent-child relationships from the Python call stack. In the UI, you get a tree view and an agent graph visualization showing the flow of the entire run.
+        <div class="tip">💡 Tip: Mention session tracking — multiple agent runs can be grouped into a Session for multi-turn conversations.</div>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q3</span>
+        How would you use LangFuse to evaluate a RAG pipeline in production?
+      </div>
+      <div class="qa-a">
+        <strong>Strong answer:</strong> I'd use a two-pronged approach. For <strong>online evaluation</strong>, I'd set up an LLM-as-judge evaluator that attaches to every production trace, scoring answers for faithfulness (is the answer grounded in the retrieved context?) and relevance. I'd use Ragas metrics here. For <strong>offline evaluation</strong>, I'd build a dataset in LangFuse from representative production traces and expected outputs, then run experiments on it before every deployment — this catches regressions before they reach users. Scores flow back into the trace, so I can filter traces with faithfulness &lt; 0.7 to find failure modes, then use those as training examples for prompt improvements.
+        <div class="tip">💡 Tip: Mention that poor-scoring traces can be promoted to the dataset to continuously expand your eval suite.</div>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q4</span>
+        What's the difference between a Score and an Eval in LangFuse?
+      </div>
+      <div class="qa-a">
+        A <strong>Score</strong> is the actual data artifact — a numeric or categorical value attached to a trace or observation (e.g., <code>faithfulness = 0.87</code>, <code>thumbs_up = 1</code>). An <strong>Eval</strong> (or evaluator) is the <em>process</em> that produces scores. Evaluators can be LLM-as-judge (a prompt that scores another LLM's output), heuristic/code functions (e.g., "does the answer contain a phone number?"), user feedback (click events), or manual annotation by human reviewers. Scores accumulate over time and are shown in dashboards, filtered by segment, and used in dataset experiments. You can score any level of the trace — the root trace, a specific span, or a generation.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q5</span>
+        How does LangFuse help with prompt management and why does it matter?
+      </div>
+      <div class="qa-a">
+        <strong>Strong answer:</strong> Prompt management means decoupling prompts from code. Without it, every prompt change requires a code deploy, a PR, and a deployment cycle — terrible for iteration speed. With LangFuse, prompts are stored centrally with full version history. You can update a prompt from the UI and it goes live immediately, with strong client-side caching so there's no latency overhead from the fetch. Crucially, each trace records <em>which prompt version was active</em>, so you can correlate quality scores to specific prompt changes. This is how you move from "we changed the prompt last week and things got worse" to "prompt v12 has 0.3 lower faithfulness than v11 on these 50 test cases."
+        <div class="tip">💡 Tip: In LangChain apps, use <code>prompt_obj.get_langchain_prompt()</code> to convert a managed prompt to a LangChain PromptTemplate while retaining version linking.</div>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q6</span>
+        How would you use LangFuse Datasets and what's the workflow?
+      </div>
+      <div class="qa-a">
+        <strong>Strong answer:</strong> A Dataset in LangFuse is a collection of input/output pairs used for systematic testing — think of it as a regression test suite for your LLM app. The workflow: (1) Create a dataset with representative queries and expected outputs — either manually uploaded or promoted from good/bad production traces. (2) Define a task function that runs your agent on a dataset item. (3) Run an experiment — LangFuse calls your task for each item, creates traces, and attaches scores. (4) Compare experiment runs side-by-side. This enables CI/CD gating: you can block a deployment if the new prompt version scores &lt; 0.8 on your golden dataset.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q7</span>
+        How does LangFuse connect to your Graph Engineering work?
+      </div>
+      <div class="qa-a">
+        <strong>Strong answer:</strong> LangFuse is purpose-built for graph-based AI workflows. When you run a LangGraph agent, the <code>CallbackHandler</code> automatically traces every node execution, edge traversal, conditional routing decision, and state update. In the LangFuse UI, the trace renders as an interactive <strong>agent graph visualization</strong> — not just a flat log — showing you the actual flow through the graph. This is invaluable for debugging: you can see why an agent took a suboptimal path, which node introduced latency, or where state became corrupted in a long-running multi-agent pipeline. For graph engineers building complex stateful agents with cycles, memory, and sub-agents, this is the difference between debugging blind and debugging with full observability.
+        <div class="tip">💡 Tip: LangFuse also supports distributed traces across microservices via OpenTelemetry — so if your graph nodes span multiple services, the trace still connects them.</div>
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-q">
+        <span class="qa-num">Q8</span>
+        What is LangFuse v3 and why does it matter architecturally?
+      </div>
+      <div class="qa-a">
+        LangFuse v3, shipped in mid-2025, moved the entire SDK to a <strong>native OpenTelemetry (OTel) architecture</strong>. This is significant because: (1) LangFuse can now receive traces from <em>any</em> OTel-compatible framework, not just its own SDK. (2) You can stitch together distributed traces across microservices — an LLM agent that spans three backend services appears as one unified trace. (3) Teams with existing observability stacks (Datadog, Grafana) can integrate LLM traces seamlessly. LangSmith, by contrast, uses a proprietary trace format and has limited OTel support. For enterprise teams, this architectural openness is a major advantage.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section" id="comparison">
+    <div class="section-label">Section 06</div>
+    <h2>LangFuse vs LangSmith — Head-to-Head</h2>
+
+    <div class="callout">
+      <strong>If the client asks:</strong> "We considered both — what's your take?" — The honest answer is that LangSmith wins on LangChain-native DX and richer built-in eval templates; LangFuse wins on open-source flexibility, OTel architecture, self-hosting, data sovereignty, and cost at scale.
+    </div>
+
+    <div style="overflow-x:auto; border-radius:10px; border:1px solid var(--border);">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>LangFuse</th>
+            <th>LangSmith</th>
+            <th>Edge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">License</td>
+            <td>MIT open-source; full self-host free</td>
+            <td>Proprietary SaaS; self-host requires Enterprise license</td>
+            <td><span class="tag-win">LangFuse ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Architecture</td>
+            <td>OpenTelemetry-native (v3, 2025); integrates with any OTel backend</td>
+            <td>Proprietary trace format; OTel export added March 2026 but not native</td>
+            <td><span class="tag-win">LangFuse ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">LangChain Integration</td>
+            <td>Excellent via CallbackHandler; requires one line of config</td>
+            <td>Zero-config via env var; deepest native integration</td>
+            <td><span class="tag-loss">LangSmith ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Framework Agnosticism</td>
+            <td>Works with OpenAI SDK, LiteLLM, LlamaIndex, Anthropic, custom HTTP</td>
+            <td>Optimized for LangChain/LangGraph; other frameworks are second-class</td>
+            <td><span class="tag-win">LangFuse ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Built-in Eval Templates</td>
+            <td>8 templates (faithfulness, relevance, helpfulness, hallucination, etc.)</td>
+            <td>30+ templates including trajectory eval, PII detection, safety, multimodal</td>
+            <td><span class="tag-loss">LangSmith ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Eval Workflow</td>
+            <td>More DIY; API+SDK, annotation queues, Ragas integration</td>
+            <td>More polished out-of-box; CI/CD evaluate() function, Automation Rules</td>
+            <td><span class="tag-loss">LangSmith ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Prompt Management</td>
+            <td>Framework-agnostic, strong caching, full version control</td>
+            <td>Git-like SHA versioning, Prompt Hub community, polished playground</td>
+            <td><span class="tag-tie">Tie</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Data Sovereignty</td>
+            <td>Full SQL access to ClickHouse; can self-host entirely air-gapped</td>
+            <td>Managed SaaS; limited raw data access on cloud</td>
+            <td><span class="tag-win">LangFuse ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Alerting</td>
+            <td>No native alerting; export metrics to Datadog/Grafana via OTel</td>
+            <td>Built-in alerts on cost/latency/score with PagerDuty integration</td>
+            <td><span class="tag-loss">LangSmith ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Pricing Model</td>
+            <td>Per unit (trace + observations + scores); 50k/month free; $29/mo paid</td>
+            <td>Per trace; $2.50/1k base traces, seat-based Plus at $39/seat/mo</td>
+            <td><span class="tag-win">LangFuse ✓</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Agent Graph Viz</td>
+            <td>Yes — renders LangGraph agents as interactive graph</td>
+            <td>Yes — LangGraph Studio is arguably the best agent debugger available</td>
+            <td><span class="tag-tie">Tie</span></td>
+          </tr>
+          <tr>
+            <td class="row-label">Ownership / Acquisition</td>
+            <td>Acquired by ClickHouse Inc. (March 2026) — same database underneath</td>
+            <td>Built by LangChain Inc.; remains independent</td>
+            <td><span class="tag-tie">Context</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-green" style="margin-top:20px">
+      <strong>Interview-ready one-liner:</strong> "Choose LangFuse if you care about open-source, data sovereignty, framework agnosticism, and OTel-native architecture. Choose LangSmith if you're all-in on LangChain and want the most polished out-of-box eval workflow with zero setup. Since this role involves diverse AI stacks, LangFuse's flexibility is typically the better long-term bet — and the ClickHouse acquisition strengthens its scalability story."
+    </div>
+
+    <div class="callout callout-blue">
+      <strong>Important 2026 update:</strong> ClickHouse acquired LangFuse in March 2026. The platform is MIT-licensed, continues operating identically, and the acquisition signals deeper ClickHouse-native analytics integration ahead. Mentioning this in your interview shows you're current.
+    </div>
+  </div>
+
+  <!-- QUICK REF -->
+  <div class="section">
+    <div class="section-label">Quick Reference</div>
+    <h2>Cheat Sheet — Key Terms & Mental Models</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Trace</h4>
+        <p>The top-level container for one request/run. Everything hangs off the trace. Has a unique trace_id.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Observation</h4>
+        <p>A Span, Generation, or Event inside a trace. Spans have duration; Generations capture LLM I/O; Events are instants.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Score</h4>
+        <p>A numeric or categorical evaluation attached to a trace or observation. The data artifact produced by an evaluator.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Dataset</h4>
+        <p>A collection of (input, expected_output) pairs used for regression testing. Feed it to experiments.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Session</h4>
+        <p>Groups multiple traces from the same multi-turn conversation or workflow session.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Experiment</h4>
+        <p>A run of your agent against a full dataset, producing comparable scores across versions.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Simple nav scroll highlighting
+  const sections = document.querySelectorAll('.section[id]');
+  const navLinks = document.querySelectorAll('nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+</script>
+
+</body>
+</html>
